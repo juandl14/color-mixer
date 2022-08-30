@@ -4,6 +4,7 @@ from operator import ne
 from color import Color
 from crossbreed import *
 from selection import *
+from mutation import *
 import math
 
 
@@ -11,20 +12,10 @@ def genetic_algorithm(population, target):
     gen = 0
     population.sort(key=lambda x: x.fitness, reverse=True)
 
-    while gen < 5:
+    while gen < 100:
         new_population = []
-
-        print('After sorted')
-
+        # crosbreed
         n_iterations = math.floor(len(population) / 2)
-
-        aux_first : Color
-        print("Population size")
-        print(len(population))
-
-        if (len(population) % 2) == 1:
-            aux_first = population[0]
-        
         j=0
         for c in range(n_iterations):
             one = population[j]
@@ -35,45 +26,50 @@ def genetic_algorithm(population, target):
             flag1 = True
             flag2 = True
             for individual in new_population:
-                print(child1)
-                print(child2)
-                print(individual)
                 if child1.equals(individual):
                     flag1 = False
                 if child2.equals(individual):
                     flag2 = False
             
-            if flag1:
+            if child1.equals(child2) or flag1:
                 new_population.append(child1)
-            if flag2:
+            elif flag2:
                 new_population.append(child2)
 
-                
-
-        if len(population) == 1:
-            child1, child2 = uniform_crossbreed(population[j], aux_first)
-            if child1 not in new_population:
+        if (len(population) % 2 ) == 1:
+            child1, child2 = uniform_crossbreed(population[j], population[0])
+            flag1 = True
+            flag2 = True
+            for individual in new_population:
+                if child1.equals(individual):
+                    flag1 = False
+                if child2.equals(individual):
+                    flag2 = False
+            
+            if child1.equals(child2) or flag1:
                 new_population.append(child1)
-            if child2 not in new_population:
+            elif flag2:
                 new_population.append(child2)
 
-        #mutar --> new_popu = crossbreed
+        print("popu before mutation")
+        for individual in new_population:
+            print(individual)   
+
+        #mutamos los que tengan bajo fitness
                     
         i = 0
         while i < len(new_population) and new_population[i].setFitness(target) < 0.15:
-            new_population[i].mutate()
-            new_population[i].setFitness(target)
+            candidate = new_population[i]
+            if not is_in_pop(new_population, candidate.mutate()):
+                new_population[i].mutate()
+                new_population[i].setFitness(target)
             i = i + 1
 
         # nos quedamos con los mejores de la vieja poblacion 
-        new_population.sort(key=lambda x: x.fitness, reverse=True)
-        print(len(new_population))
-        k=0
-        while (k < math.floor(len(population)/2)) and (population[k].fitness > 0.5):
-            new_population.append(population[k])
-            k = k + 1
+        # personalized_mutation(new_population, population)
+        uniform_mutation(new_population, population)
 
-        #seleccionamos --> new_popu2
+        #seleccionamos 
         elite_selection(new_population)
 
         # fijarse condicion de corte (fitness)
@@ -81,6 +77,9 @@ def genetic_algorithm(population, target):
             print("done")
             return new_population[0]
 
+        print("after mutation")
+        for individual in new_population:
+            print(individual)  
         population = new_population
         gen += 1
 

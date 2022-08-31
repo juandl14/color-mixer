@@ -21,4 +21,4 @@ def rank_selection(individuals):
     else:
         probabilities = [(f_1[i] / sum_f_1) for i in range(0, P)]
     np_array = np.random.choice(list(individuals), size=P//2, replace=False, p=probabilities)
-    return set(np_array)
+    individuals = np_array

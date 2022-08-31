@@ -12,7 +12,7 @@ def genetic_algorithm(population, target):
     gen = 0
     population.sort(key=lambda x: x.fitness, reverse=True)
 
-    while gen < 100:
+    while gen < 50:
         new_population = []
         # crosbreed
         n_iterations = math.floor(len(population) / 2)
@@ -69,17 +69,22 @@ def genetic_algorithm(population, target):
         # personalized_mutation(new_population, population)
         uniform_mutation(new_population, population)
 
-        #seleccionamos 
-        elite_selection(new_population)
+        #seleccionamos
+        roulette_selection(new_population)
+        # elite_selection(new_population)
+
+        print("after selection method")
+        for individual in new_population:
+            print(individual)
+            if(individual.fitness > 0.95):
+                print("ENCONTRADO")
+                return individual
 
         # fijarse condicion de corte (fitness)
-        if(new_population[0].fitness > 0.95):
-            print("done")
-            return new_population[0]
+        # if(new_population[0].fitness > 0.95):
+        #     print("done")
+        #     return new_population[0]
 
-        print("after mutation")
-        for individual in new_population:
-            print(individual)  
         population = new_population
         gen += 1
 

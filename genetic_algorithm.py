@@ -6,13 +6,14 @@ from crossbreed import *
 from selection import *
 from mutation import *
 import math
+from config_loader import selection_name, max_gens, expected_fit
 
 
 def genetic_algorithm(population, target):
     gen = 0
+    max : float
     population.sort(key=lambda x: x.fitness, reverse=True)
-    max = population[0]
-    while gen < 100:
+    while gen < (max_gens):
         new_population = []
         # crosbreed
         n_iterations = math.floor(len(population) / 2)
@@ -51,10 +52,6 @@ def genetic_algorithm(population, target):
             elif flag2:
                 new_population.append(child2)
 
-        print("popu before mutation")
-        for individual in new_population:
-            print(individual)   
-
         #mutamos los que tengan bajo fitness
                     
         i = 0
@@ -70,25 +67,21 @@ def genetic_algorithm(population, target):
         uniform_mutation(new_population, population)
 
         #seleccionamos
-        # roulette_selection(new_population)
-        # elite_selection(new_population)
-        rank_selection(new_population)
+        if selection_name == 'roulette':
+            roulette_selection(new_population)
+        elif selection_name == 'elite':
+            elite_selection(new_population)
+        else:
+            rank_selection(new_population)
 
-        print("after selection method")
+        max = new_population[0]
         for individual in new_population:
-            print(individual)
             if individual.fitness > max.fitness:
                 max = individual
-            if(individual.fitness > 0.95):
-                # me da la sensacion nos haria encontrar un maximo local cuando podria haber una mejor solucioN?
-                print("ENCONTRADO")
+            if(individual.fitness >= expected_fit):
+                print("found at generation:")
                 print(gen)
                 return individual
-
-        # fijarse condicion de corte (fitness)
-        # if(new_population[0].fitness > 0.95):
-        #     print("done")
-        #     return new_population[0]
 
         population = new_population
         gen += 1

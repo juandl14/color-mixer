@@ -1,6 +1,6 @@
 from audioop import reverse
 from hashlib import new
-from operator import ne
+from operator import ge, ne
 from color import Color
 from crossbreed import *
 from selection import *
@@ -11,7 +11,7 @@ import math
 def genetic_algorithm(population, target):
     gen = 0
     population.sort(key=lambda x: x.fitness, reverse=True)
-
+    max = population[0]
     while gen < 100:
         new_population = []
         # crosbreed
@@ -77,8 +77,12 @@ def genetic_algorithm(population, target):
         print("after selection method")
         for individual in new_population:
             print(individual)
+            if individual.fitness > max.fitness:
+                max = individual
             if(individual.fitness > 0.95):
+                # me da la sensacion nos haria encontrar un maximo local cuando podria haber una mejor solucioN?
                 print("ENCONTRADO")
+                print(gen)
                 return individual
 
         # fijarse condicion de corte (fitness)
@@ -89,4 +93,4 @@ def genetic_algorithm(population, target):
         population = new_population
         gen += 1
 
-    return new_population[0]
+    return max

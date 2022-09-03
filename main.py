@@ -1,8 +1,10 @@
 import numpy as np
-from color import *
 import sys
+import matplotlib.pyplot as plt
+from color import *
 from genetic_algorithm import genetic_algorithm
 from config_loader import file
+
 
 target_color : Color
 generation_output : int
@@ -24,7 +26,7 @@ result = genetic_algorithm(colors_from_palette, target_color)
 
 print(result)
 print(result.fitness)
-# print(generation_output)
 
-# for c in colors_from_palette:
-#     print(c.getFitness(target_color))
+plt.imshow([[(result.red / 255, result.green / 255, result.blue / 255)],
+            [(target_color.red / 255, target_color.green / 255, target_color.blue / 255)]])
+plt.show()

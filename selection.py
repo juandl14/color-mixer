@@ -1,6 +1,15 @@
 from color import Color
 import numpy as np
+from config_loader import selection_name
 
+def selection(population):
+        match selection_name: 
+            case "roulette":
+                roulette_selection(population)
+            case "elite":
+                elite_selection(population)
+            case _:
+                rank_selection(population)
 
 def elite_selection(population):
     population.sort(key=lambda x: x.fitness, reverse=True)

@@ -3,19 +3,27 @@ from hashlib import new
 from operator import ge, ne
 from color import Color
 from crossbreed import *
-from selection import *
+from selection import selection
 from mutation import *
 import math
 from config_loader import selection_name, max_gens, expected_fit
 
+def validate_expected_fit():
+    if (not expected_fit == "default") and (0 <= expected_fit <= 1):
+        return expected_fit
+    return 0.95
+
 
 def genetic_algorithm(population, target):
+    expected_fitness = validate_expected_fit()
+    
     gen = 0
     max : float
     population.sort(key=lambda x: x.fitness, reverse=True)
     while gen < (max_gens):
         new_population = []
-        # crosbreed
+
+        # crossbreed
         n_iterations = math.floor(len(population) / 2)
         j=0
         for c in range(n_iterations):
@@ -52,8 +60,7 @@ def genetic_algorithm(population, target):
             elif flag2:
                 new_population.append(child2)
 
-        #mutamos los que tengan bajo fitness
-                    
+        #mutamos los que tengan bajo fitness   
         i = 0
         while i < len(new_population) and new_population[i].setFitness(target) < 0.15:
             candidate = new_population[i]
@@ -66,19 +73,14 @@ def genetic_algorithm(population, target):
         # personalized_mutation(new_population, population)
         uniform_mutation(new_population, population)
 
-        #seleccionamos
-        if selection_name == 'roulette':
-            roulette_selection(new_population)
-        elif selection_name == 'elite':
-            elite_selection(new_population)
-        else:
-            rank_selection(new_population)
+        #seleccionamos (seleccion default -> rank)
+        selection(new_population)
 
         max = new_population[0]
         for individual in new_population:
             if individual.fitness > max.fitness:
                 max = individual
-            if(individual.fitness >= expected_fit):
+            if(individual.fitness >= expected_fitness):
                 print("found at generation:")
                 print(gen)
                 return individual

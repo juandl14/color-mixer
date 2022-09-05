@@ -104,10 +104,8 @@ def genetic_algorithm(population, target):
             print("fitness")
             print(closest_color.getFitness(target))
             
-        red_coordinates.append(max.red)
-        green_coordinates.append(max.green)
-        blue_coordinates.append(max.blue)
-        color_fit_coordinates.append(max.getFitness(target))
+    
+        color_fit_coordinates.append(closest_color.getFitness(target))
 
         if(not is_in_pop(new_population, closest_color)):
             new_population.append(Color(closest_color.red, closest_color.green, closest_color.blue))

@@ -9,18 +9,20 @@ class Color:
         self.red = red
         self.green = green
         self.blue = blue
-        self.fitness = 0.0
     def __str__(self):
          return str(self.red) + " " + str(self.green) + " " + str(self.blue)
          
-    def getFitness(self, chrom):
-        distance = self.MAX_DISTANCE - math.sqrt(math.pow(abs(chrom.red - self.red), 2) + 
-                                math.pow(abs(chrom.green - self.green), 2) + 
-                                math.pow(abs(chrom.blue - self.blue), 2)) 
-        self.fitness = distance / self.MAX_DISTANCE
-        return self.fitness
+    def getFitness(self, target_color):
+        distance = self.MAX_DISTANCE - math.sqrt(math.pow(abs(target_color.red - self.red), 2) + 
+                                math.pow(abs(target_color.green - self.green), 2) + 
+                                math.pow(abs(target_color.blue - self.blue), 2)) 
+        return distance / self.MAX_DISTANCE
 
     def mutate(self):
         self.red = MAX_INT - self.red
         self.green = MAX_INT - self.green
         self.blue = MAX_INT - self.blue
+
+    def equals(self, color):
+        return (self.red == color.red) and (self.green == color.green) and (self.blue == color.blue)
+

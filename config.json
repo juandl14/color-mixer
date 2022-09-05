@@ -1,0 +1,6 @@
+{
+    "file" :"color_palette.txt",
+    "selection": "roulette",
+    "max_generations": 100,
+    "expected_fitness": 0.95
+}

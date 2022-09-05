@@ -33,7 +33,6 @@ def uniform_mutation(new_population, population, target):
                     individual.green = mutate(individual.green)
                 elif numpy.random.uniform() > 0.5:
                     individual.blue = mutate(individual.blue)
-            # if old_color.getFitness(target) > individual.getFitness(target):
-            #     individual = old_color
+            
             if not is_in_pop(new_population, individual):
                 new_population.append(individual)

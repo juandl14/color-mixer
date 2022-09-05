@@ -27,7 +27,7 @@ def genetic_algorithm(population, target):
     
     gen = 0
     max : float
-    # population.sort(key=lambda x: x.getFitness(target), reverse=True)
+    
     while gen < (max_gens):
         new_population = []
 
@@ -84,7 +84,6 @@ def genetic_algorithm(population, target):
         #seleccionamos (seleccion default -> rank)
         selection(new_population, target)
 
-        # new_population.sort(key=lambda x:x.getFitness(target), reverse=True)
         max = new_population[0]
 
         for individual in new_population:

@@ -9,16 +9,14 @@ class Color:
         self.red = red
         self.green = green
         self.blue = blue
-        self.fitness = 0.0
     def __str__(self):
          return str(self.red) + " " + str(self.green) + " " + str(self.blue)
          
-    def setFitness(self, target_color):
+    def getFitness(self, target_color):
         distance = self.MAX_DISTANCE - math.sqrt(math.pow(abs(target_color.red - self.red), 2) + 
                                 math.pow(abs(target_color.green - self.green), 2) + 
                                 math.pow(abs(target_color.blue - self.blue), 2)) 
-        self.fitness = distance / self.MAX_DISTANCE
-        return self.fitness
+        return distance / self.MAX_DISTANCE
 
     def mutate(self):
         self.red = MAX_INT - self.red

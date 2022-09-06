@@ -7,6 +7,9 @@
 * Kim, Azul
 * Konfederak, Sol
 
+## Consgina:
+Queremos ayudar a los artistas a lograr ése color que tiene en mente con una paleta limitada. Para ello, contaremos como input del usuario (el artista!) su paleta de colores y el color deseado; y buscamos implementar un sistema que, mediante una implementación de Algoritmos Genéticos, logre encontrar la forma de mezclar proporciones de los diferentes colores de su paleta para lograr el color que más se le acerque al color deseado
+
 ## Guía de instalación
 Para poder correr el proyecto es necesario tener instalado:
 * Python 3
